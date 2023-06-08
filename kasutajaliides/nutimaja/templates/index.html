@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+    .off {
+        background-color: red;
+    }
+    .on {
+        background-color: green;
+    }
+    .utility {
+        margin-top: 40px;
+    }
+    .switch {
+        margin-top: 20px;
+    }
+    </style>
+</head>
+<body>
+    {% csrf_token %}
+    <h2 class = "switch">Tuba 1</h2>
+    {% if switchstatus1 == 0 %}
+    <button onclick="switch1()" class = 'button1 off'>Valgusti</button>
+    {% elif switchstatus1 == 1 %}
+    <button onclick="switch1()" class = 'button1 on'>Valgusti</button>
+    {% endif %}
+    <h2>Tuba 2</h2>
+    {% if switchstatus2 == 0 %}
+    <button onclick="switch2()" class = 'button2 off'>Valgusti</button>
+    {% elif switchstatus2 == 1 %}
+    <button onclick="switch2()" class = 'button2 on'>Valgusti</button>
+    {% endif %}
+    <h2>Tuba 3</h2>
+    {% if switchstatus3 == 0 %}
+    <button onclick="switch3()" class = 'button3 off'>Valgusti</button>
+    {% elif switchstatus3 == 1 %}
+    <button onclick="switch3()" class = 'button3 on'>Valgusti</button>
+    {% endif %}
+    <h2>Tuba 4</h2>
+    {% if switchstatus4 == 0 %}
+    <button onclick="switch4()" class = 'button4 off'>Valgusti</button>
+    {% elif switchstatus4 == 1 %}
+    <button onclick="switch4()" class = 'button4 on'>Valgusti</button>
+    {% endif %}
+
+    {% block temperature %}
+        <h2 class = "utility">Temperatuur: {{ temp }}</h2>
+    {% endblock %}
+
+    {% block humidity %}
+        <h2>Niiskus: {{ humidity }}</h2>
+    {% endblock %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        function switch1() {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'nutimaja:switch1' %}",
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    const button = document.querySelector('.button1');
+                    if (response.led1 === 1) {
+                        button.classList.remove('off');
+                        button.classList.add('on');
+                    } else {
+                        button.classList.remove('on');
+                        button.classList.add('off');
+                    }
+                    console.log(response);
+                    // Perform actions after successful response
+                },
+                error: function(error) {
+                    console.log(error);
+                    // Handle error case
+                }
+            });
+        }
+        function switch2() {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'nutimaja:switch2' %}",
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    const button = document.querySelector('.button2');
+                    if (response.led2 === 1) {
+                        button.classList.remove('off');
+                        button.classList.add('on');
+                    } else {
+                        button.classList.remove('on');
+                        button.classList.add('off');
+                    }
+                    console.log(response);
+                    // Perform actions after successful response
+                },
+                error: function(error) {
+                    console.log(error);
+                    // Handle error case
+                }
+            });
+        }
+        function switch3() {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'nutimaja:switch3' %}",
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    const button = document.querySelector('.button3');
+                    if (response.led3 === 1) {
+                        button.classList.remove('off');
+                        button.classList.add('on');
+                    } else {
+                        button.classList.remove('on');
+                        button.classList.add('off');
+                    }
+                    console.log(response);
+                    // Perform actions after successful response
+                },
+                error: function(error) {
+                    console.log(error);
+                    // Handle error case
+                }
+            });
+        }
+        function switch4() {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'nutimaja:switch4' %}",
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    const button = document.querySelector('.button4');
+                    if (response.led4 === 1) {
+                        button.classList.remove('off');
+                        button.classList.add('on');
+                    } else {
+                        button.classList.remove('on');
+                        button.classList.add('off');
+                    }
+                    console.log(response);
+                    // Perform actions after successful response
+                },
+                error: function(error) {
+                    console.log(error);
+                    // Handle error case
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
