@@ -3,30 +3,29 @@
     <head>
         {% load static %}
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="icon" type="image/x-icon" href="data:">
         <style>
+
             body {
                 background-color: #f9f9f9;
                 padding: 20px;
             }
-            .off {
-                background-color: red;
-            }
-            .on {
-                background-color: green;
-            }
+
             .all {
                 background-color: #3498db !important;
             }
+            
             .utility {
                 margin-top: 40px;
                 font-size: 24px;
                 color: #333;
                 font-weight: bold;
             }
+
             .switch, .garaaž {
                 padding-top: 10px;
             }
-            /* Updated styles for buttons */
+
             .button {
                 border: none;
                 border-radius: 4px;
@@ -36,14 +35,15 @@
                 cursor: pointer;
                 transition: background-color 0.3s ease;
             }
+
             .button.off {
                 background-color: #d9534f;
             }
+
             .button.on {
                 background-color: #5cb85c;
             }
-            
-            /* Updated styles for Tuba 2 and Tuba 4 */
+
             .tuba, .garaaž {
                 margin-top: 40px;
                 padding: 20px;
@@ -51,21 +51,20 @@
                 background-color: #f5f5f5;
             }
     
-            /* Styles for humidity and temperature section */
-            .utility-section {
+            .näidud {
                 background-color: #5cb85c;
                 padding: 20px;
                 border-radius: 8px;
                 color: #fff;
                 margin-top: 40px;
             }
-            .utility-section h2 {
+
+            .näidud h2 {
                 font-size: 24px;
                 font-weight: bold;
                 margin-bottom: 10px;
             }
-            
-            /* Media query for mobile devices */
+
             @media (max-width: 767px) {
                 .button:hover {
                     opacity: 1;
@@ -78,6 +77,7 @@
                     height: 100%;
                 }
             }
+
             .camera {
                 margin-top: 40px;
                 border-radius: 8px;
@@ -158,7 +158,7 @@
     
             <div class="row">
                 <div class="col-12">
-                    <div class="utility-section">
+                    <div class="näidud">
                         <h2>Temperatuur: {{ temp }}</h2>
                         <h2>Niiskus: {{ humidity }}</h2>
                     </div>

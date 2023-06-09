@@ -1,16 +1,8 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-import json
+import socket
 
 # Create your views here.
-
-import socket
-
-
-
-import socket
-import subprocess
-
 
 HOST = '192.168.75.103' # Siia tuleb nüüd serveri IP-aadress. Kui server ja klient jooksevad samal masinal, saab kasutada praegust IP-aadressit.
 PORT = 65432 # Port peab olema sama nagu serveril.
@@ -22,10 +14,11 @@ data = response.split('\r\n\r\n')[0]
 print("Received data:")
 status = {} 
 statusList = data.split(";")
-print(statusList)
+
 temp, humidity = statusList[1].split(",")[0], statusList[1].split(",")[1]
 tempInt = temp.split(":")[1]
 humidityInt = humidity.split(":")[1]
+
 for switch in statusList[0].split(","):
     status[switch.split(":")[0]] = int(switch.split(":")[1])
     print(switch)
