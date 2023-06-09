@@ -6,6 +6,40 @@ import json
 
 import socket
 
+
+
+import socket
+import subprocess
+
+# Start a socket listening for connections on 0.0.0.0:8000 (0.0.0.0 means
+# all interfaces)
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.bind(('0.0.0.0', 8000))
+server_socket.listen(0)
+
+# Accept a single connection and make a file-like object out of it
+connection = server_socket.accept()[0].makefile('rb')
+try:
+    # Run a viewer with an appropriate command line. Uncomment the mplayer
+    # version if you would prefer to use mplayer instead of VLC
+    cmdline = ['vlc', '--demux', 'h264', '-']
+    #cmdline = ['mplayer', '-fps', '25', '-cache', '1024', '-']
+    player = subprocess.Popen(cmdline, stdin=subprocess.PIPE)
+    while True:
+        # Repeatedly read 1k of data from the connection and write it to
+        # the media player's stdin
+        data = connection.read(1024)
+        if not data:
+            break
+        player.stdin.write(data)
+finally:
+    connection.close()
+    server_socket.close()
+    player.terminate()
+
+
+
+
 HOST = '192.168.75.103' # Siia tuleb nüüd serveri IP-aadress. Kui server ja klient jooksevad samal masinal, saab kasutada praegust IP-aadressit.
 PORT = 65432 # Port peab olema sama nagu serveril.
 
@@ -22,7 +56,7 @@ tempInt = temp.split(":")[1]
 humidityInt = humidity.split(":")[1]
 for switch in statusList[0].split(","):
     status[switch.split(":")[0]] = int(switch.split(":")[1])
-    print("1")
+    print(switch)
 
 def switch1(request):
     try: 
@@ -80,6 +114,45 @@ def switch4(request):
     updated_data = {'led4': status['led4']}
     return JsonResponse(updated_data)
 
+def garage(request):
+    try: 
+        print(status["garage"])
+        if int(status["garage"]) == 0:
+            client_socket.sendall("open-garage".encode())
+            status["garage"] = 1
+        else:
+            client_socket.sendall("close-garage".encode())
+            status["garage"] = 0  
+    except Exception as e:
+        print(f"Error sending command: {e}")
+    print(status["garage"])
+    updated_data = {'garage': status['garage']}
+    return JsonResponse(updated_data)
+
+def all_lights_on(request):
+    try:
+        client_socket.sendall("all-leds-on".encode())
+        status["led1"] = 1
+        status["led2"] = 1
+        status["led3"] = 1
+        status["led4"] = 1
+    except Exception as e:
+        print(f"Error sending command: {e}")
+    updated_data = {'led1': status['led1'], 'led2': status['led2'], 'led3': status['led3'], 'led4': status['led4']}
+    return JsonResponse(updated_data)
+
+def all_lights_off(request):
+    try:
+        client_socket.sendall("all-leds-off".encode())
+        status["led1"] = 0
+        status["led2"] = 0
+        status["led3"] = 0
+        status["led4"] = 0
+    except Exception as e:
+        print(f"Error sending command: {e}")
+    updated_data = {'led1': status['led1'], 'led2': status['led2'], 'led3': status['led3'], 'led4': status['led4']}
+    return JsonResponse(updated_data)
+
 def index(request):
-    context = {"url": "http://127.0.0.1:8000/", "switchstatus1": int(status["led1"]), "switchstatus2": int(status["led2"]), "switchstatus3": int(status["led3"]), "switchstatus4": int(status["led4"]), 'temp': tempInt, 'humidity': humidityInt}
+    context = {"url": "http://127.0.0.1:8000/", "switchstatus1": int(status["led1"]), "switchstatus2": int(status["led2"]), "switchstatus3": int(status["led3"]), "switchstatus4": int(status["led4"]), 'temp': tempInt, 'humidity': humidityInt, 'garagestatus': int(status["garage"])}
     return render(request, 'index.html', context)

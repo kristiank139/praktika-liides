@@ -1,57 +1,154 @@
 <!DOCTYPE html>
 <html>
-<head>
-    {% load static %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <style>
-    .off {
-        background-color: red;
-    }
-    .on {
-        background-color: green;
-    }
-    .utility {
-        margin-top: 40px;
-    }
-    .switch {
-        margin-top: 20px;
-    }
-    </style>
-</head>
-<body>
-    {% csrf_token %}
-    <h2 class = "switch">Tuba 1</h2>
-    {% if switchstatus1 == 0 %}
-    <button onclick="switch1()" class = 'button1 off'>Valgusti</button>
-    {% elif switchstatus1 == 1 %}
-    <button onclick="switch1()" class = 'button1 on'>Valgusti</button>
-    {% endif %}
-    <h2>Tuba 2</h2>
-    {% if switchstatus2 == 0 %}
-    <button onclick="switch2()" class = 'button2 off'>Valgusti</button>
-    {% elif switchstatus2 == 1 %}
-    <button onclick="switch2()" class = 'button2 on'>Valgusti</button>
-    {% endif %}
-    <h2>Tuba 3</h2>
-    {% if switchstatus3 == 0 %}
-    <button onclick="switch3()" class = 'button3 off'>Valgusti</button>
-    {% elif switchstatus3 == 1 %}
-    <button onclick="switch3()" class = 'button3 on'>Valgusti</button>
-    {% endif %}
-    <h2>Tuba 4</h2>
-    {% if switchstatus4 == 0 %}
-    <button onclick="switch4()" class = 'button4 off'>Valgusti</button>
-    {% elif switchstatus4 == 1 %}
-    <button onclick="switch4()" class = 'button4 on'>Valgusti</button>
-    {% endif %}
-
-    {% block temperature %}
-        <h2 class = "utility">Temperatuur: {{ temp }}</h2>
-    {% endblock %}
-
-    {% block humidity %}
-        <h2>Niiskus: {{ humidity }}</h2>
-    {% endblock %}
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <style>
+            body {
+                background-color: #f9f9f9;
+                padding: 20px;
+            }
+            .off {
+                background-color: red;
+            }
+            .on {
+                background-color: green;
+            }
+            .all {
+                background-color: #3498db !important;
+            }
+            .utility {
+                margin-top: 40px;
+                font-size: 24px;
+                color: #333;
+                font-weight: bold;
+            }
+            .switch, .garaaž {
+                padding-top: 10px;
+            }
+            /* Updated styles for buttons */
+            .button {
+                border: none;
+                border-radius: 4px;
+                padding: 10px 20px;
+                color: #fff;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+            .button.off {
+                background-color: #d9534f;
+            }
+            .button.on {
+                background-color: #5cb85c;
+            }
+            
+            /* Updated styles for Tuba 2 and Tuba 4 */
+            .tuba, .garaaž {
+                margin-top: 40px;
+                padding: 20px;
+                border-radius: 8px;
+                background-color: #f5f5f5;
+            }
+    
+            /* Styles for humidity and temperature section */
+            .utility-section {
+                background-color: #5cb85c;
+                padding: 20px;
+                border-radius: 8px;
+                color: #fff;
+                margin-top: 40px;
+            }
+            .utility-section h2 {
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            
+            /* Media query for mobile devices */
+            @media (max-width: 767px) {
+                .button:hover {
+                    opacity: 1;
+                }
+                .row {
+                    display: flex;
+                }
+            }
+        </style>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tuba">
+                        <h2 class="switch">Tuba 1</h2>
+                        {% if switchstatus1 == 0 %}
+                            <button onclick="switch1()" class="button button1 off">Valgusti</button>
+                        {% elif switchstatus1 == 1 %}
+                            <button onclick="switch1()" class="button button1 on">Valgusti</button>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="tuba">
+                        <h2 class="switch">Tuba 2</h2>
+                        {% if switchstatus2 == 0 %}
+                            <button onclick="switch2()" class="button button2 off">Valgusti</button>
+                        {% elif switchstatus2 == 1 %}
+                            <button onclick="switch2()" class="button button2 on">Valgusti</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tuba">
+                        <h2 class="switch">Tuba 3</h2>
+                        {% if switchstatus3 == 0 %}
+                            <button onclick="switch3()" class="button button3 off">Valgusti</button>
+                        {% elif switchstatus3 == 1 %}
+                            <button onclick="switch3()" class="button button3 on">Valgusti</button>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="tuba">
+                        <h2 class="switch">Tuba 4</h2>
+                        {% if switchstatus4 == 0 %}
+                            <button onclick="switch4()" class="button button4 off">Valgusti</button>
+                        {% elif switchstatus4 == 1 %}
+                            <button onclick="switch4()" class="button button4 on">Valgusti</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="garaaž">
+                        {% if switchstatus3 == 0 %}
+                            <button onclick="garage()" class="button garage off">Garaaž</button>
+                        {% elif switchstatus3 == 1 %}
+                            <button onclick="garage()" class="button garage on">Garaaž</button>
+                        {% endif %}
+                        <button onclick="all_lights_on()" class="button all off">Kõik tuled põlema</button>
+                        <button onclick="all_lights_off()" class="button all on">Kõik tuled kustu</button>
+                    </div>
+                </div>
+            </div>
+    
+    
+            <div class="row">
+                <div class="col-12">
+                    <div class="utility-section">
+                        <h2>Temperatuur: {{ temp }}</h2>
+                        <h2>Niiskus: {{ humidity }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -158,6 +255,90 @@
                 }
             });
         }
+        function garage() {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'nutimaja:garage' %}",
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    const button = document.querySelector('.garage');
+                    if (response.garage === 1) {
+                        button.classList.remove('off');
+                        button.classList.add('on');
+                    } else {
+                        button.classList.remove('on');
+                        button.classList.add('off');
+                    }
+                    console.log(response);
+                    // Perform actions after successful response
+                },
+                error: function(error) {
+                    console.log(error);
+                    // Handle error case
+                }
+            });
+        }
+        function all_lights_on() {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'nutimaja:all_lights_on' %}",
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    const button1 = document.querySelector('.button1');
+                    button1.classList.remove('off');
+                    button1.classList.add('on');
+                    const button2 = document.querySelector('.button2');
+                    button2.classList.remove('off');
+                    button2.classList.add('on');
+                    const button3 = document.querySelector('.button3');
+                    button3.classList.remove('off');
+                    button3.classList.add('on');
+                    const button4 = document.querySelector('.button4');
+                    button4.classList.remove('off');
+                    button4.classList.add('on');
+                    console.log(response);
+                    // Perform actions after successful response
+                },
+                error: function(error) {
+                    console.log(error);
+                    // Handle error case
+                }
+            });
+        }
+        function all_lights_off() {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'nutimaja:all_lights_off' %}",
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    const button1 = document.querySelector('.button1');
+                    button1.classList.remove('on');
+                    button1.classList.add('off');
+                    const button2 = document.querySelector('.button2');
+                    button2.classList.remove('on');
+                    button2.classList.add('off');
+                    const button3 = document.querySelector('.button3');
+                    button3.classList.remove('on');
+                    button3.classList.add('off');
+                    const button4 = document.querySelector('.button4');
+                    button4.classList.remove('on');
+                    button4.classList.add('off');
+                    console.log(response);
+                    // Perform actions after successful response
+                },
+                error: function(error) {
+                    console.log(error);
+                    // Handle error case
+                }
+            });
+        }
+        
 
     </script>
 </body>
